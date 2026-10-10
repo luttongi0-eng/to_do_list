@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'OngleipParkDahyeon';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg-sketchbook: #fbf7ee;
+  --bg-canvas: #ffffff;
+  --text-primary: #2d2a26;
+  --border-sketchbook: #2c2825;
+  --dot-color: rgba(0, 0, 0, 0.07);
+}
+
+.dark {
+  --bg-sketchbook: #18191a;
+  --bg-canvas: #242526;
+  --text-primary: #e4e6eb;
+  --border-sketchbook: #4e4f50;
+  --dot-color: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  background-color: var(--bg-sketchbook);
+  color: var(--text-primary);
+  background-image: radial-gradient(var(--dot-color) 1px, transparent 1px);
+  background-size: 18px 18px;
+  font-family: 'OngleipParkDahyeon', sans-serif !important;
+  font-weight: 400 !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 전체 앱의 모든 UI 요소 기본 굵기는 normal(400) */
+*, input, textarea, button, select, p, span, div {
+  font-family: 'OngleipParkDahyeon', sans-serif !important;
+  font-weight: 400;
+}
+
+/* 메인 제목, 섹션 헤더 등 명시적으로 font-bold / 제목 태그인 경우만 굵게 표시 */
+h1, h2, h3, .font-bold, .title-bold {
+  font-weight: 700 !important;
+}
+
+/* 착! 하고 붙는 포스트잇 애니메이션 */
+@keyframes stickPostIt {
+  0% {
+    transform: scale(0.6) translateY(-25px) rotate(-4deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.04) translateY(4px) rotate(1deg);
+    opacity: 0.9;
+  }
+  80% {
+    transform: scale(0.98) translateY(-2px) rotate(-1deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0) rotate(var(--rot, 0deg));
+    opacity: 1;
+  }
+}
+
+.animate-stick {
+  animation: stickPostIt 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* 마스킹 테이프 효과 */
+.washi-tape {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 20px;
+  background-color: rgba(255, 255, 255, 0.65);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  border-left: 2px dashed rgba(0, 0, 0, 0.15);
+  border-right: 2px dashed rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(2px);
+  z-index: 10;
+}
+
+.dark .washi-tape {
+  background-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
