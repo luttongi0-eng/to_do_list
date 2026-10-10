@@ -164,8 +164,64 @@ NEXT_PUBLIC_GOOGLE_SCRIPT_URL=https://script.google.com/macros/s/AKfycbxVc6Ii6JS
 
 ```Prompt
 - Copyright INU To Do list by huijin An 으로 수정하고 Footer 영역을 세련되게 제작
--글씨체를 온글잎 - 룡룡 글씨체로 변경
+-글씨체 변경
+@font-face {
+    font-family: 'OngleipParkDahyeon';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
 ```
-프롬프트 창에 온글잎 룡룡.ttf 파일 추가 불가. 온글잎 룡룡의 글씨체를 캡처해서 프롬프트창에 입력
+
+---
+
+## 15단계: 코드베이스 실행 및 확인
+
+- `npm run dev` 입력
+- `http://localhost:3000` 를 클릭
+- 앞서 가상 서버를 실행해놓은 상태라면 다시 할 필요는 없음
+- 서비스가 실행되면 각 기능을 테스트해 봄
+https://github.com/luttongi0-eng/to_do_list.git
+
+---
+
+## 16단계: 깃허브 사이트에 저장소 생성
+
+- 깃허브 사이트에 접속하여 본 서비스를 업로드할 저장소 생성
+- 본 과정에서는 `to_do_list` 로 설정함
+- 저장소 주소 복사 및 붙여넣기
+
+---
+
+## 17단계: 깃허브 연결 확인
+
+**프롬프트**
+
+```Prompt
+- git config --global user.email "luttongi0@gmail.com"
+- git config --global user.name "luttongi0-eng"
+- Personal access tokens (classic)=YOUR_GITHUB_PERSONAL_ACCESS_TOKEN
+- 해당 저장소에 대해 깃허브 연결을 확인
+```
+
+---
+
+## 18단계: 깃허브에 코드베이스 업로드
+
+**프롬프트**
+
+```Prompt
+- https://github.com/luttongi0-eng/to_do_list.git
+- 코드베이스를 깃허브에 업로드
+```
+
+---
+
+## 19단계: 버셀을 통해 서비스 배포
+
+- 버셀(Vercel)에 접속하여 깃허브의 `to_do_list` 저장소를 연결하여 배포
+- `.env.local` 파일에 저장해둔 연동 키(API Key)도 **배포시 반드시 등록해주어야 함**
+- 연동 키(API Key)는 직접 입력하여 등록할 수도 있지만  `.env.local` 파일을 지정하여 한번에 등록할 수 있음
 
 ---
