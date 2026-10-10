@@ -39,30 +39,38 @@ export const MemoGallery: React.FC<MemoGalleryProps> = ({
     const { source, destination } = result;
     if (source.index === destination.index) return;
 
-    // 전체 리스트 기준으로 순서 재정렬
-    const items = Array.from(memos);
-    const [reorderedItem] = items.splice(source.index, 1);
-    items.splice(destination.index, 0, reorderedItem);
+    // 현재 표시 중인 filteredMemos 기준으로 옮겨진 아이템 계산
+    const currentList = Array.from(filteredMemos);
+    const [movedItem] = currentList.splice(source.index, 1);
+    currentList.splice(destination.index, 0, movedItem);
 
-    // order 필드 업데이트
-    const updated = items.map((item, idx) => ({
-      ...item,
-      order: idx,
-    }));
-
-    onReorder(updated);
+    if (selectedCategory === '전체') {
+      const updated = currentList.map((item, idx) => ({
+        ...item,
+        order: idx,
+      }));
+      onReorder(updated);
+    } else {
+      // 특정 카테고리 필터링 상태일 때도 전체 memos 내 순서 안전하게 재정렬
+      const otherMemos = memos.filter((m) => m.category !== selectedCategory);
+      const combined = [...currentList, ...otherMemos].map((item, idx) => ({
+        ...item,
+        order: idx,
+      }));
+      onReorder(combined);
+    }
   };
 
   return (
     <div className="w-full max-w-6xl mx-auto my-8">
-      {/* 갤러리 헤더: 포스트잇 갤러리 제목 및 필터 옵션 */}
+      {/* 갤러리 헤더: 스케치북 갤러리 제목 및 필터 옵션 */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b-2 border-stone-300 dark:border-stone-700">
         <div>
           <h2 className="text-2xl md:text-3xl font-bold text-stone-800 dark:text-stone-100 flex items-center gap-2 handwriting">
-            <span>🖼️ 포스트잇 갤러리</span>
+            <span>📖 스케치북 메모 갤러리</span>
           </h2>
           <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
-            도화지 위에 자유자재로 모인 크레파스 메모들 (드래그하여 순서를 바꿀 수 있습니다)
+            스케치북 위에 모인 메모들 (상단 그립 아이콘을 잡아 드래그하여 순서를 바꿀 수 있습니다)
           </p>
         </div>
 
@@ -118,11 +126,11 @@ export const MemoGallery: React.FC<MemoGalleryProps> = ({
                 ) : (
                   filteredMemos.map((memo, index) => (
                     <Draggable key={memo.id} draggableId={memo.id} index={index}>
-                      {(dragProvided) => (
+                      {(dragProvided, snapshot) => (
                         <div
                           ref={dragProvided.innerRef}
                           {...dragProvided.draggableProps}
-                          className="w-full"
+                          className={`w-full transition-shadow ${snapshot.isDragging ? 'z-50 opacity-90 scale-105' : ''}`}
                         >
                           <MemoCard
                             memo={memo}

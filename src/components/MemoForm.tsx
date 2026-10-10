@@ -49,8 +49,21 @@ export const MemoForm: React.FC<MemoFormProps> = ({ onAddMemo, memoCount }) => {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto my-4 bg-white/95 dark:bg-stone-900/90 border-2 border-stone-800 dark:border-stone-500 rounded-2xl p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,0.85)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]">
-      {/* 상단: 카테고리 선택 헤더 */}
+    <div className="w-full max-w-2xl mx-auto my-6 relative">
+      {/* 스케치북 상단 와이어 스프링 바인더 바 */}
+      <div className="absolute -top-3.5 left-6 right-6 flex justify-between px-3 pointer-events-none z-20">
+        {Array.from({ length: 18 }).map((_, i) => (
+          <div key={i} className="flex flex-col items-center">
+            {/* 스프링 링 코일 */}
+            <div className="w-2.5 h-5 rounded-full bg-gradient-to-r from-stone-400 via-stone-100 to-stone-400 dark:from-stone-600 dark:via-stone-200 dark:to-stone-600 border border-stone-500/80 shadow-xs" />
+            {/* 타공 홀 */}
+            <div className="w-1.5 h-1.5 -mt-1 rounded-full bg-stone-700/80 dark:bg-black/90" />
+          </div>
+        ))}
+      </div>
+
+      <div className="bg-white/95 dark:bg-stone-900/90 border-2 border-stone-800 dark:border-stone-500 rounded-2xl pt-6 p-6 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.85)] dark:shadow-[5px_5px_0px_0px_rgba(255,255,255,0.2)]">
+        {/* 상단: 카테고리 선택 헤더 */}
       <div className="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-700">
         <div className="flex items-center gap-2">
           <span className="text-amber-600 dark:text-amber-400 font-bold text-lg">📌 카테고리 선택</span>
@@ -154,15 +167,15 @@ export const MemoForm: React.FC<MemoFormProps> = ({ onAddMemo, memoCount }) => {
         </div>
       </div>
 
-      {/* 스케치북 기록 버튼 */}
-      <button
-        onClick={handleSubmit}
-        disabled={!content.trim()}
-        className="w-full mt-3 py-3 px-4 bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 rounded-xl font-bold text-lg md:text-xl flex items-center justify-center gap-2 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.7)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.4)] hover:translate-x-0.5 hover:translate-y-0.5 active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed handwriting tracking-wider"
-      >
-        <Sparkles className="w-5 h-5 text-amber-400 dark:text-amber-600" />
-        스케치북에 기록하기
-      </button>
+        <button
+          onClick={handleSubmit}
+          disabled={!content.trim()}
+          className="w-full mt-3 py-3 px-4 bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 rounded-xl font-bold text-lg md:text-xl flex items-center justify-center gap-2 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.7)] dark:shadow-[3px_3px_0px_0px_rgba(255,255,255,0.4)] hover:translate-x-0.5 hover:translate-y-0.5 active:shadow-none transition-all disabled:opacity-50 disabled:cursor-not-allowed handwriting tracking-wider"
+        >
+          <Sparkles className="w-5 h-5 text-amber-400 dark:text-amber-600" />
+          스케치북에 기록하기
+        </button>
+      </div>
     </div>
   );
 };

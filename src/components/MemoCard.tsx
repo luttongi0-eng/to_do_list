@@ -54,10 +54,19 @@ export const MemoCard: React.FC<MemoCardProps> = ({
 
   return (
     <div
-      className={`relative group p-5 rounded-lg border-2 ${colorStyle.bg} ${colorStyle.border} ${colorStyle.darkBg} ${rotation} shadow-[3px_4px_6px_rgba(0,0,0,0.08)] dark:shadow-[3px_4px_6px_rgba(0,0,0,0.5)] transition-all hover:shadow-[5px_6px_10px_rgba(0,0,0,0.15)] hover:z-20 animate-stick flex flex-col justify-between min-h-[220px] select-none`}
+      className={`relative group p-5 pt-7 rounded-xl border-2 ${colorStyle.bg} ${colorStyle.border} ${colorStyle.darkBg} ${rotation} shadow-[3px_5px_10px_rgba(0,0,0,0.08)] dark:shadow-[3px_5px_10px_rgba(0,0,0,0.5)] transition-transform duration-200 ease-out hover:scale-[1.04] hover:shadow-[8px_14px_24px_rgba(0,0,0,0.18)] hover:z-30 hover:rotate-0 flex flex-col justify-between min-h-[220px] select-none`}
     >
-      {/* 상단 반투명 마스킹 테이프 장식 */}
-      <div className="washi-tape" />
+      {/* 스케치북 상단 와이어 링 스프링 디자인 */}
+      <div className="absolute -top-3.5 left-0 right-0 flex justify-evenly px-4 pointer-events-none z-20">
+        {Array.from({ length: 11 }).map((_, i) => (
+          <div key={i} className="flex flex-col items-center">
+            {/* 스프링 코일 (은색 메탈 입체 광택) */}
+            <div className="w-2.5 h-4.5 rounded-full bg-gradient-to-r from-stone-400 via-stone-100 to-stone-400 dark:from-stone-600 dark:via-stone-200 dark:to-stone-600 border border-stone-500/60 shadow-xs" />
+            {/* 스케치북 종이 펀칭 구멍 */}
+            <div className="w-1.5 h-1.5 -mt-1 rounded-full bg-stone-700/70 dark:bg-black/80" />
+          </div>
+        ))}
+      </div>
 
       {/* 카드 상단: 드래그 핸들, 카테고리 태그, D-Day 배지, 작업 버튼들 */}
       <div>
@@ -66,8 +75,8 @@ export const MemoCard: React.FC<MemoCardProps> = ({
             {/* 드래그 핸들 */}
             <div
               {...dragHandleProps}
-              className="cursor-grab active:cursor-grabbing p-0.5 text-stone-500 hover:text-stone-800 dark:text-stone-400"
-              title="드래그하여 순서 변경"
+              className="cursor-grab active:cursor-grabbing p-1 rounded-md bg-black/5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/10 text-stone-600 hover:text-stone-900 dark:text-stone-300 transition-colors"
+              title="잡아서 드래그하여 순서 변경"
             >
               <GripVertical className="w-4 h-4" />
             </div>
