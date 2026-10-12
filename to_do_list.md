@@ -225,3 +225,45 @@ https://github.com/luttongi0-eng/to_do_list.git
 - 연동 키(API Key)는 직접 입력하여 등록할 수도 있지만  `.env.local` 파일을 지정하여 한번에 등록할 수 있음
 
 ---
+
+## 20단계: d-day 저장 수정
+d-day 저장 기능 추가하기 위해 구글 시트 수정
+시트 재구성-아직 사용안함
+https://docs.google.com/spreadsheets/d/1CPKuqX6fPpYY24ytivIbnfY5l_8kzKzf7IIepOPRODg/edit?usp=sharing
+apps script 재배포-기존 시트에서 재설정
+https://script.google.com/macros/s/AKfycbwmrwjtF3ZCmEdvC2Zm0ckGtK3hEfAgg47Vtj9hBfKET3KpCv9xy8I6NzoBYBxbVmPc2A/exec
+
+---
+
+## 21단계: 구글 시트 연동 기능 재구현
+
+```
+-prompt
+- .env.local 파일에 있는 NEXT_PUBLIC_GOOGLE_SCRIPT_URL 키 값을 이용하여 메모의  'timestamp','datetime','category','content','color','state','order','d-day'에 대해 CRUD를 수행하는 기능 구현
+- [스케치북에 기록하기] 버튼을 누르면 메모 저장
+-d-day 설정은 로딩을 새로 하거나 창을 닫아도 기존 설정한 날짜에 맞게 디데이가 카운트될 수 있는 기능 구현
+```
+
+제대로 기능하지 않아 54행의 const values = dataRange.getValues();
+-> const values = dataRange.getDisplayValues(); 이걸로 변경
+
+배포 관리에 들어가 수정, 새버전을 선택하여 재배포(연동주소 변경 안됨)-> 안티그래비티에 다른 프롬프트 입력 없이 바로 적용됨.
+
+---
+
+## 22단계: 깃허브에 코드베이스 업로드
+
+**프롬프트**
+
+```Prompt
+- https://github.com/luttongi0-eng/to_do_list.git
+- 코드베이스를 깃허브에 업로드
+```
+
+---
+
+## 23단계: 버셀을 통해 서비스 배포
+
+- 버셀(Vercel)에 접속하여 깃허브의 `to_do_list` 저장소를 연결하여 배포
+- `.env.local` 파일에 저장해둔 연동 키(API Key)도 **배포시 반드시 등록해주어야 함**
+- 연동 키(API Key)는 직접 입력하여 등록할 수도 있지만  `.env.local` 파일을 지정하여 한번에 등록할 수 있음
