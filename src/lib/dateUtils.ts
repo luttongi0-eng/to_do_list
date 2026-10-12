@@ -36,14 +36,21 @@ export function calculateDDay(targetDateStr?: string): { text: string; isPast: b
   if (!targetDateStr) return null;
 
   try {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // YYYY-MM-DD 포맷 파싱 (타임존 오프셋 방지)
+    const cleaned = targetDateStr.trim().split('T')[0];
+    const parts = cleaned.split('-');
+    if (parts.length !== 3) return null;
 
-    const target = new Date(targetDateStr);
-    target.setHours(0, 0, 0, 0);
+    const targetYear = parseInt(parts[0], 10);
+    const targetMonth = parseInt(parts[1], 10) - 1;
+    const targetDay = parseInt(parts[2], 10);
 
-    const diffTime = target.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const now = new Date();
+    // 로컬 날짜 기준 00:00:00 UTC 기준 밀리초 계산
+    const todayUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
+    const targetUTC = Date.UTC(targetYear, targetMonth, targetDay);
+
+    const diffDays = Math.round((targetUTC - todayUTC) / (1000 * 60 * 60 * 24));
 
     if (diffDays === 0) {
       return { text: 'D-Day', isPast: false };

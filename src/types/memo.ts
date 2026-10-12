@@ -1,4 +1,4 @@
-﻿export type Category = '전체' | '할 일' | '아이디어' | '기타';
+export type Category = '전체' | '할 일' | '아이디어' | '기타';
 
 export type MemoColor = 1 | 2 | 3 | 4; // 1: 노랑, 2: 분홍, 3: 초록, 4: 파랑
 
@@ -11,7 +11,7 @@ export interface Memo {
   color: MemoColor; // E열: 메모색상 (1: 노랑, 2: 분홍, 3: 초록, 4: 파랑)
   state: '완료' | ''; // F열: 상태 (완료 또는 빈값)
   order: number; // G열: 순서
-  dDay?: string; // D-Day 목표일 (YYYY-MM-DD, 할 일인 경우)
+  dDay?: string; // H열: d-day 목표일 (YYYY-MM-DD)
 }
 
 export interface GoogleSheetRow {
@@ -22,4 +22,5 @@ export interface GoogleSheetRow {
   color: number | string;
   state: string;
   order: number | string;
+  'd-day'?: string;
 }

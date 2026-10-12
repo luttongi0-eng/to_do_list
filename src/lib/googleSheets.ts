@@ -36,6 +36,7 @@ export async function getMemosFromSheet(): Promise<Memo[]> {
           color: (Number(row.color) || 1) as Memo['color'],
           state: (row.state === '완료' || row.state === '체크' ? '완료' : '') as Memo['state'],
           order: Number(row.order) !== undefined && !isNaN(Number(row.order)) ? Number(row.order) : idx,
+          dDay: row['d-day'] || row.dDay ? String(row['d-day'] || row.dDay) : undefined,
         }));
       }
     } catch (err) {
@@ -51,7 +52,7 @@ export async function getMemosFromSheet(): Promise<Memo[]> {
   const sheets = google.sheets({ version: 'v4', auth });
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: SPREADSHEET_ID,
-    range: 'Sheet1!A2:G',
+    range: 'Sheet1!A2:H',
   });
 
   const rows = response.data.values || [];
@@ -65,6 +66,7 @@ export async function getMemosFromSheet(): Promise<Memo[]> {
       color: (Number(row[4]) || 1) as Memo['color'],
       state: (row[5] === '완료' || row[5] === '체크' ? '완료' : '') as Memo['state'],
       order: Number(row[6]) || idx,
+      dDay: row[7] ? String(row[7]) : undefined,
     };
   });
 }
@@ -91,7 +93,7 @@ export async function appendMemoToSheet(memo: Omit<Memo, 'id'>) {
   const sheets = google.sheets({ version: 'v4', auth });
   await sheets.spreadsheets.values.append({
     spreadsheetId: SPREADSHEET_ID,
-    range: 'Sheet1!A2:G',
+    range: 'Sheet1!A2:H',
     valueInputOption: 'USER_ENTERED',
     requestBody: {
       values: [
@@ -103,6 +105,7 @@ export async function appendMemoToSheet(memo: Omit<Memo, 'id'>) {
           memo.color,
           memo.state,
           memo.order,
+          memo.dDay || '',
         ],
       ],
     },
@@ -132,7 +135,7 @@ export async function updateAllMemosToSheet(memos: Memo[]) {
   const sheets = google.sheets({ version: 'v4', auth });
   await sheets.spreadsheets.values.clear({
     spreadsheetId: SPREADSHEET_ID,
-    range: 'Sheet1!A2:G',
+    range: 'Sheet1!A2:H',
   });
 
   if (memos.length === 0) return true;
@@ -145,11 +148,12 @@ export async function updateAllMemosToSheet(memos: Memo[]) {
     m.color,
     m.state,
     m.order,
+    m.dDay || '',
   ]);
 
   await sheets.spreadsheets.values.update({
     spreadsheetId: SPREADSHEET_ID,
-    range: 'Sheet1!A2:G',
+    range: 'Sheet1!A2:H',
     valueInputOption: 'USER_ENTERED',
     requestBody: { values },
   });
