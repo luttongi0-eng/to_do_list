@@ -44,11 +44,38 @@ export default function Home() {
   };
 
   const fetchMemos = async () => {
+    // 로컬스토리지에 저장된 기존 메모 캐시 (dDay 보존용)
+    const local = localStorage.getItem(STORAGE_KEY);
+    let localMemosMap = new Map<string, string>();
+    if (local) {
+      try {
+        const parsed: Memo[] = JSON.parse(local);
+        parsed.forEach((m) => {
+          if (m.dDay) {
+            localMemosMap.set(m.datetime || m.timestamp || m.content, m.dDay);
+          }
+        });
+      } catch {}
+    }
+
     try {
       const res = await fetch('/api/memos');
       const json = await res.json();
       if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-        setMemos(json.data);
+        // 시트 데이터에 dDay가 누락되었을 경우 로컬 캐시에서 복원
+        const merged: Memo[] = json.data.map((m: Memo) => {
+          if (!m.dDay) {
+            const key = m.datetime || m.timestamp || m.content;
+            const savedDDay = localMemosMap.get(key);
+            if (savedDDay) {
+              return { ...m, dDay: savedDDay };
+            }
+          }
+          return m;
+        });
+
+        setMemos(merged);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
         return;
       }
     } catch (e) {
@@ -56,7 +83,6 @@ export default function Home() {
     }
 
     // fallback to LocalStorage
-    const local = localStorage.getItem(STORAGE_KEY);
     if (local) {
       try {
         setMemos(JSON.parse(local));
